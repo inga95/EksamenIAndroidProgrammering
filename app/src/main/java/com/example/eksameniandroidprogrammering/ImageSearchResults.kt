@@ -14,15 +14,18 @@ import kotlinx.android.synthetic.main.image_search_results.*
 
 class ImageSearchResults : AppCompatActivity() {
 
-    private lateinit var searchBtn: Button
+
     private val dataList: MutableList<ImagesApi> = mutableListOf()
     private lateinit var adapter: Adapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.image_search_results)
 
+        val response=intent.getStringExtra("response")
 
+        println("sent response" + response)
         adapter = Adapter(dataList)
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.addItemDecoration(DividerItemDecoration(this, OrientationHelper.VERTICAL))
@@ -34,7 +37,7 @@ class ImageSearchResults : AppCompatActivity() {
         AndroidNetworking.get("http://api-edu.gtl.ai/api/v1/imagesearch/bing")
             .addQueryParameter(
                 "url",
-                "https://pngimg.com/uploads/panda/panda_PNG8.png"
+                response
             )
             .build()
             .getAsObject(Liste::class.java, object : ParsedRequestListener<Liste> {

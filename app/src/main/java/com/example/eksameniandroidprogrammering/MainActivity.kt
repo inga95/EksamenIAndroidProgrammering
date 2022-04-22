@@ -1,22 +1,37 @@
 package com.example.eksameniandroidprogrammering
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.MediaStore.Images.Media.getBitmap
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContentProviderCompat.requireContext
+import com.androidnetworking.AndroidNetworking
+import com.androidnetworking.common.Priority
+import com.androidnetworking.error.ANError
+import com.androidnetworking.interfaces.JSONObjectRequestListener
+import com.androidnetworking.interfaces.StringRequestListener
+import org.json.JSONObject
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var takePictureBtn: Button
-    private lateinit var iv_pick_image: ImageView
+    private lateinit var imageView: ImageView
+    private var selectedImage: Uri? = null
+    var responseContainer = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,11 +39,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val searchBtn = findViewById<Button>(R.id.bt_search)
+        val savedResultsBtn = findViewById<Button>(R.id.saved_result)
 
         searchBtn.setOnClickListener{
             val intent = Intent(this,ImageSearchResults::class.java)
+            intent.putExtra("response", responseContainer)
             startActivity(intent)
         }
+
+
+
 
 
 
@@ -56,6 +76,41 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+
+    fun UriToBitmap(context: Context, id: Int?, uri: String?): Bitmap {
+        val selectedImage: Bitmap = MediaStore.Images.Media.getBitmap(context!!.contentResolver, Uri.parse(uri))
+        return selectedImage
+    }
+
+    fun getBitmap(context: Context, id: Int?, uri: String?, decoder: (Context, Int?, String?) -> Bitmap): Bitmap {
+        return decoder(context, id, uri)
+    }
+
+
+    fun bitmapToByteArray(bitmap : Bitmap) : ByteArray{
+        val outputStream = ByteArrayOutputStream()
+
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream)
+        return outputStream.toByteArray()
+    }
+
+    fun bitmapToFile(bitmap : Bitmap, filename : String, context: Context) : File{
+
+        val file = File(context.getCacheDir(), filename)
+        file.createNewFile()
+
+        val bitmapdata = bitmapToByteArray(bitmap)
+
+        val fileOutputStream = FileOutputStream(file)
+        fileOutputStream.write(bitmapdata)
+        fileOutputStream.flush()
+        fileOutputStream.close()
+
+        return file
+    }
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
         super.onActivityResult(requestCode, resultCode, data)
@@ -69,9 +124,42 @@ class MainActivity : AppCompatActivity() {
             var iv_pick_image: ImageView? = null
             iv_pick_image = findViewById(R.id.iv_pick_image)
             iv_pick_image!!.setImageURI(resultUri)
-        }else if (requestCode == 123){
+            println(resultUri)
+            //val selectedImageUri = data?.data
+            val bitmap = UriToBitmap(this, 101, resultUri.toString())
+            val file = bitmapToFile(bitmap, "image.png", this)
+            println(file)
+                AndroidNetworking.upload("http://api-edu.gtl.ai/api/v1/imagesearch/upload")
+                    .setPriority(Priority.MEDIUM)
+                    .addMultipartFile(
+                        "image", file
+                    )
+                    .setTag(this)
+                    .build()
+                    .setUploadProgressListener { bytesUploaded, totalBytes ->
+                        val toast =
+                            Toast.makeText(applicationContext, "you got here", Toast.LENGTH_SHORT)
+                        toast.show()
+                    }
+                    .getAsString(object : StringRequestListener {
+                        override fun onResponse(response: String) {
+                            Toast.makeText(this@MainActivity, response, Toast.LENGTH_SHORT).show()
+                            responseContainer = response
+                            println("RESPONSE: $response")
+                        }
+
+                        override fun onError(anError: ANError) {
+                            Toast.makeText(this@MainActivity, anError.message, Toast.LENGTH_SHORT)
+                                .show()
+                            println("ERROR: $anError.message")
+                        }
+                    })
+
+
+        }
+        else if (requestCode == 123){
             var pic = data?.getParcelableExtra<Bitmap>("data")
-            iv_pick_image.setImageBitmap(pic)
+            imageView.setImageBitmap(pic)
         }
     }
 }

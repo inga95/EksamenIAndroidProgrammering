@@ -16,7 +16,7 @@ class Cropper : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         readIntent()
         val options = UCrop.Options()
-        val dest_uri = StringBuilder(UUID.randomUUID().toString()).append(".jpg").toString()
+        val dest_uri = StringBuilder(UUID.randomUUID().toString()).append(".png").toString()
         UCrop.of(fileUri!!, Uri.fromFile(File(cacheDir, dest_uri)))
             .withOptions(options)
             .withAspectRatio(0f, 0f)

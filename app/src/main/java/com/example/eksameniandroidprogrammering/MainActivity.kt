@@ -21,6 +21,7 @@ import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.androidnetworking.interfaces.StringRequestListener
+import okhttp3.internal.Util
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -31,7 +32,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var takePictureBtn: Button
     private lateinit var imageView: ImageView
     private var selectedImage: Uri? = null
+    var utils: Utils = Utils()
+
     var responseContainer = ""
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-
+//nvdjkvbdkjv
 
         //Gjør at man kan åpne kamera i emulatoren/mobilen og ta bilde
        /* takePictureBtn.setOnClickListener{
@@ -78,37 +82,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    fun UriToBitmap(context: Context, id: Int?, uri: String?): Bitmap {
-        val selectedImage: Bitmap = MediaStore.Images.Media.getBitmap(context!!.contentResolver, Uri.parse(uri))
-        return selectedImage
-    }
 
-    fun getBitmap(context: Context, id: Int?, uri: String?, decoder: (Context, Int?, String?) -> Bitmap): Bitmap {
-        return decoder(context, id, uri)
-    }
-
-
-    fun bitmapToByteArray(bitmap : Bitmap) : ByteArray{
-        val outputStream = ByteArrayOutputStream()
-
-        bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream)
-        return outputStream.toByteArray()
-    }
-
-    fun bitmapToFile(bitmap : Bitmap, filename : String, context: Context) : File{
-
-        val file = File(context.getCacheDir(), filename)
-        file.createNewFile()
-
-        val bitmapdata = bitmapToByteArray(bitmap)
-
-        val fileOutputStream = FileOutputStream(file)
-        fileOutputStream.write(bitmapdata)
-        fileOutputStream.flush()
-        fileOutputStream.close()
-
-        return file
-    }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -125,9 +99,9 @@ class MainActivity : AppCompatActivity() {
             iv_pick_image = findViewById(R.id.iv_pick_image)
             iv_pick_image!!.setImageURI(resultUri)
             println(resultUri)
-            //val selectedImageUri = data?.data
-            val bitmap = UriToBitmap(this, 101, resultUri.toString())
-            val file = bitmapToFile(bitmap, "image.png", this)
+
+            val bitmap = utils.UriToBitmap(this, 101, resultUri.toString())
+            val file = utils.bitmapToFile(bitmap, "image.png", this)
             println(file)
                 AndroidNetworking.upload("http://api-edu.gtl.ai/api/v1/imagesearch/upload")
                     .setPriority(Priority.MEDIUM)

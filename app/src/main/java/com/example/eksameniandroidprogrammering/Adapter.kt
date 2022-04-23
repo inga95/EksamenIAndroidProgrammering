@@ -16,9 +16,6 @@ class Adapter(private val dataList: MutableList<ImagesApi>, private val onItemCL
 
         val v = LayoutInflater.from(parent.context).inflate(R.layout.item_view, parent, false)
         return ViewHolder(v)
-
-        //context = parent.context
-       // return ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_view, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

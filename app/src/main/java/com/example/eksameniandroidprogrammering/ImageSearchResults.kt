@@ -14,10 +14,7 @@ import kotlinx.android.synthetic.main.image_search_results.*
 
 class ImageSearchResults : AppCompatActivity(), OnItemCLickListener {
 
-
     private val dataList: MutableList<ImagesApi> = mutableListOf()
-    //private lateinit var adapter: Adapter
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +25,6 @@ class ImageSearchResults : AppCompatActivity(), OnItemCLickListener {
         println("sent response" + response)
 
         var adapter = Adapter(dataList, this)
-        //adapter = Adapter(dataList)
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.addItemDecoration(DividerItemDecoration(this, OrientationHelper.VERTICAL))
         recycler_view.adapter = adapter
@@ -55,7 +51,7 @@ class ImageSearchResults : AppCompatActivity(), OnItemCLickListener {
 
     override fun onItemClicked(position: Int) {
         //Toast.makeText(this, "You clickedddd on item # ${position + 1}", Toast.LENGTH_LONG).show()
-    val intent = Intent(this, ImageActivity::class.java)
+        val intent = Intent(this, ImageActivity::class.java)
         intent.putExtra("image_link", dataList[position].image_link)
         startActivity(intent)
 

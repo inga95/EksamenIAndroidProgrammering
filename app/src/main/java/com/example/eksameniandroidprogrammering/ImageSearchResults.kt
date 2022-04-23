@@ -1,10 +1,8 @@
 package com.example.eksameniandroidprogrammering
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,11 +12,11 @@ import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.ParsedRequestListener
 import kotlinx.android.synthetic.main.image_search_results.*
 
-class ImageSearchResults : AppCompatActivity() {
+class ImageSearchResults : AppCompatActivity(), OnItemCLickListener {
 
 
     private val dataList: MutableList<ImagesApi> = mutableListOf()
-    private lateinit var adapter: Adapter
+    //private lateinit var adapter: Adapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +26,9 @@ class ImageSearchResults : AppCompatActivity() {
         val response=intent.getStringExtra("response")
 
         println("sent response" + response)
-        adapter = Adapter(dataList)
+
+        var adapter = Adapter(dataList, this)
+        //adapter = Adapter(dataList)
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.addItemDecoration(DividerItemDecoration(this, OrientationHelper.VERTICAL))
         recycler_view.adapter = adapter
@@ -51,5 +51,13 @@ class ImageSearchResults : AppCompatActivity() {
                 override fun onError(anError: ANError?) {
                 }
             })
+    }
+
+    override fun onItemClicked(position: Int) {
+        //Toast.makeText(this, "You clickedddd on item # ${position + 1}", Toast.LENGTH_LONG).show()
+    val intent = Intent(this, ImageActivity::class.java)
+        intent.putExtra("image_link", dataList[position].image_link)
+        startActivity(intent)
+
     }
 }

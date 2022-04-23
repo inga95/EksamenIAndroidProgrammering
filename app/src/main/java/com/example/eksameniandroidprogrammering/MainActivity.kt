@@ -51,10 +51,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
-
-
-
 //nvdjkvbdkjv
 
         //Gjør at man kan åpne kamera i emulatoren/mobilen og ta bilde
@@ -79,10 +75,6 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(intent, 101)
         }
     }
-
-
-
-
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

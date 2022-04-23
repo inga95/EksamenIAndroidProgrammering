@@ -25,8 +25,9 @@
         <activity android:name=".Utils"
             android:exported="false"/>
 
-        <activity android:name=".PostImage"
+        <activity android:name=".ImageActivity"
             android:exported="false"/>
+
 
 
         <activity

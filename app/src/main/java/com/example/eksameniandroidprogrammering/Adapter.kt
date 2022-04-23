@@ -2,18 +2,13 @@ package com.example.eksameniandroidprogrammering
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_view.view.*
-import android.widget.Toast
 
 
-
-
-class Adapter (private val dataList: MutableList<ImagesApi>): RecyclerView.Adapter<ViewHolder>() {
+class Adapter(private val dataList: MutableList<ImagesApi>, private val onItemCLickListener: ImageSearchResults): RecyclerView.Adapter<ViewHolder>() {
 
 
     private lateinit var context: Context
@@ -33,6 +28,10 @@ class Adapter (private val dataList: MutableList<ImagesApi>): RecyclerView.Adapt
         Picasso.get()
             .load(data.image_link)
             .into(imageView)
+
+        holder.itemView.setOnClickListener {
+            onItemCLickListener.onItemClicked(position)
+        }
     }
 
     override fun getItemCount(): Int {

@@ -22,8 +22,9 @@ import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.androidnetworking.interfaces.StringRequestListener
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.android.synthetic.main.activity_main.*
+//import kotlinx.coroutines.GlobalScope
+//import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.internal.Util
 import org.json.JSONObject
@@ -141,4 +142,25 @@ class MainActivity : AppCompatActivity() {
             imageView.setImageBitmap(pic)
         }
     }
+
+    private fun addRecord() {
+        val image = iv_pick_image.toString()
+        val databaseHandler: DatabaseHandler = DatabaseHandler(this)
+        if (!image.isEmpty()) {
+            val status =
+                databaseHandler.addImages(DataModel(0, image))
+            if (status > -1) {
+                Toast.makeText(applicationContext, "Record saved", Toast.LENGTH_LONG).show()
+            }
+        } else {
+            Toast.makeText(
+                applicationContext,
+                "Image cannot be blank",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
+
+
 }

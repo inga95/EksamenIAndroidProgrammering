@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity() {
                     .build()
                     .setUploadProgressListener { bytesUploaded, totalBytes ->
                         val toast =
-                            Toast.makeText(applicationContext, "you got here", Toast.LENGTH_SHORT)
+                            Toast.makeText(applicationContext, "Image uploaded", Toast.LENGTH_SHORT)
                         toast.show()
                     }
                     .getAsString(object : StringRequestListener {

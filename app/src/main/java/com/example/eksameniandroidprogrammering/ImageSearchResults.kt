@@ -8,31 +8,40 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.OrientationHelper
 import com.androidnetworking.AndroidNetworking
+import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.ParsedRequestListener
+import com.androidnetworking.interfaces.StringRequestListener
 import kotlinx.android.synthetic.main.image_search_results.*
 
 class ImageSearchResults : AppCompatActivity(), OnItemCLickListener {
 
     private val dataList: MutableList<ImagesApi> = mutableListOf()
+    val bingUrl: String = "http://api-edu.gtl.ai/api/v1/imagesearch/bing"
+    val googleUrl: String = "http://api-edu.gtl.ai/api/v1/imagesearch/google"
+    val tineyeUrl: String = "http://api-edu.gtl.ai/api/v1/imagesearch/tineye"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.image_search_results)
 
+        getImage()
+    }
+
+
+   private fun getImage(){
         val response=intent.getStringExtra("response")
 
-        println("sent response" + response)
+        println("sent response$response")
 
-        var adapter = Adapter(dataList, this)
+        val adapter = Adapter(dataList, this)
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.addItemDecoration(DividerItemDecoration(this, OrientationHelper.VERTICAL))
         recycler_view.adapter = adapter
 
-
         AndroidNetworking.initialize(this)
 
-        AndroidNetworking.get("http://api-edu.gtl.ai/api/v1/imagesearch/bing")
+        AndroidNetworking.get(bingUrl)
             .addQueryParameter(
                 "url",
                 response
@@ -50,7 +59,7 @@ class ImageSearchResults : AppCompatActivity(), OnItemCLickListener {
     }
 
     override fun onItemClicked(position: Int) {
-        //Toast.makeText(this, "You clickedddd on item # ${position + 1}", Toast.LENGTH_LONG).show()
+        //Toast.makeText(this, "You clicked on item # ${position + 1}", Toast.LENGTH_LONG).show()
         val intent = Intent(this, ImageActivity::class.java)
         intent.putExtra("image_link", dataList[position].image_link)
         startActivity(intent)

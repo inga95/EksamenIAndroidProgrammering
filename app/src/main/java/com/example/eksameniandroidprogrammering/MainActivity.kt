@@ -21,6 +21,8 @@ import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.androidnetworking.interfaces.StringRequestListener
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.internal.Util
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
@@ -37,7 +39,6 @@ class MainActivity : AppCompatActivity() {
     var responseContainer = ""
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -51,10 +52,8 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-//nvdjkvbdkjv
-
         //Gjør at man kan åpne kamera i emulatoren/mobilen og ta bilde
-       /* takePictureBtn.setOnClickListener{
+       /*takePictureBtn.setOnClickListener{
             var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             startActivityForResult(intent, 123)
         }*/
@@ -95,6 +94,7 @@ class MainActivity : AppCompatActivity() {
             val bitmap = utils.UriToBitmap(this, 101, resultUri.toString())
             val file = utils.bitmapToFile(bitmap, "image.png", this)
             println(file)
+
                 AndroidNetworking.upload("http://api-edu.gtl.ai/api/v1/imagesearch/upload")
                     .setPriority(Priority.MEDIUM)
                     .addMultipartFile(
@@ -120,8 +120,6 @@ class MainActivity : AppCompatActivity() {
                             println("ERROR: $anError.message")
                         }
                     })
-
-
         }
         else if (requestCode == 123){
             var pic = data?.getParcelableExtra<Bitmap>("data")

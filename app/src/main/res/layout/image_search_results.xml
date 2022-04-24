@@ -14,7 +14,7 @@
 
         android:gravity="center"
         android:padding="5dp"
-        android:text="Reverse image results"
+        android:text="@string/reverse_image_results"
         android:textColor="#000000"
         android:textSize="25sp"
         android:textStyle="bold"

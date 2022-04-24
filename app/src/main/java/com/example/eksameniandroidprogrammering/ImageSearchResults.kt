@@ -13,6 +13,10 @@ import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.ParsedRequestListener
 import com.androidnetworking.interfaces.StringRequestListener
 import kotlinx.android.synthetic.main.image_search_results.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ImageSearchResults : AppCompatActivity(), OnItemCLickListener {
 
@@ -25,9 +29,22 @@ class ImageSearchResults : AppCompatActivity(), OnItemCLickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.image_search_results)
 
-        getImage()
+
+        //Coroutine del
+        GlobalScope.launch (Dispatchers.Default){
+            getData()
+            getImage()
+        }
     }
 
+    //Coroutine del
+    private suspend fun getData():String? {
+        var data: String? = null
+        withContext(Dispatchers.IO){
+            data = bingUrl
+        }
+        return data
+    }
 
    private fun getImage(){
         val response=intent.getStringExtra("response")
@@ -54,6 +71,11 @@ class ImageSearchResults : AppCompatActivity(), OnItemCLickListener {
                 }
 
                 override fun onError(anError: ANError?) {
+                    if (anError != null) {
+                        Toast.makeText(this@ImageSearchResults, anError.message, Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                    println("ERROR: $anError.message")
                 }
             })
     }

@@ -21,8 +21,10 @@ import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.androidnetworking.interfaces.StringRequestListener
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.internal.Util
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
@@ -35,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var imageView: ImageView
     private var selectedImage: Uri? = null
     var utils: Utils = Utils()
+    private val uploadUrl: String = "http://api-edu.gtl.ai/api/v1/imagesearch/upload"
 
     var responseContainer = ""
 
@@ -50,6 +53,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this,ImageSearchResults::class.java)
             intent.putExtra("response", responseContainer)
             startActivity(intent)
+        }
+
+        GlobalScope.launch (Dispatchers.Default){
+            downloadData()
         }
 
         //Gjør at man kan åpne kamera i emulatoren/mobilen og ta bilde
@@ -75,6 +82,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private suspend fun downloadData():String? {
+        var downloadedData: String? = null
+        withContext(Dispatchers.IO){
+            downloadedData = uploadUrl
+        }
+        return downloadedData
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
@@ -95,7 +110,7 @@ class MainActivity : AppCompatActivity() {
             val file = utils.bitmapToFile(bitmap, "image.png", this)
             println(file)
 
-                AndroidNetworking.upload("http://api-edu.gtl.ai/api/v1/imagesearch/upload")
+                AndroidNetworking.upload(uploadUrl)
                     .setPriority(Priority.MEDIUM)
                     .addMultipartFile(
                         "image", file

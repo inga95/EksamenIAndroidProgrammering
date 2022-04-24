@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
-
 
     <ImageView
         android:id="@+id/iv_big"
@@ -18,7 +16,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.205" />
+        app:layout_constraintVertical_bias="0.205"
+        android:contentDescription="@string/image_results_big" />
 
     <Button
         android:id="@+id/save_image"
@@ -28,7 +27,7 @@
         android:background="#7897D4 "
         android:gravity="center"
         android:padding="5dp"
-        android:text="Save in app"
+        android:text="@string/save_in_app"
         android:textColor="#fff"
         android:textSize="25sp"
         android:textStyle="bold"
@@ -45,7 +44,7 @@
         android:background="#7897D4 "
         android:gravity="center"
         android:padding="5dp"
-        android:text="Download image"
+        android:text="@string/download_image"
         android:textColor="#fff"
         android:textSize="25sp"
         android:textStyle="bold"
@@ -53,6 +52,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

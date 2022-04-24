@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">EksamenIAndroidProgrammering</string>
+    <string name="reverseImageSearchTv">Reverse image search by uploading a picture under</string>
+    <string name="take_picture">Take picture</string>
+    <string name="saved_results">Saved results</string>
+    <string name="searchBtn">Search</string>
+    <string name="reverse_image_results">Reverse image results</string>
+    <string name="save_in_app">Save in app</string>
+    <string name="download_image">Download image</string>
+    <string name="image_results_big">imageResultsBig</string>
 </resources>

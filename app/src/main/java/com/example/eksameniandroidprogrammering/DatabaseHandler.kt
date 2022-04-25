@@ -9,31 +9,39 @@ import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import java.sql.Blob
 
-abstract class DatabaseHandler(context: Context) :
+class DatabaseHandler(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION){
 
         companion object {
             private const val DATABASE_VERSION = 1
-            private const val DATABASE_NAME = "ImageDB"
-            private const val TABLE_IMAGES = "ImagesTable"
+            private const val DATABASE_NAME = "ImageDB.db"
 
+
+            /*private const val TABLE_IMAGES = "ImagesTable"
             private const val KEY_ID = "ID"
-            private const val KEY_DATA = "Images"
+            private const val KEY_DATA = "Images"*/
         }
 
-    override fun onCreate(db: SQLiteDatabase?) {
-        val CREATE_IMAGE_TABLE = ("CREATE TABLE " + TABLE_IMAGES + "("
+    override fun onCreate(db: SQLiteDatabase) {
+
+        db.execSQL("create table images (id primary key, image blob)")
+
+        /*val CREATE_IMAGE_TABLE = ("CREATE TABLE " + TABLE_IMAGES + "("
                 + KEY_ID + " INTEGER PRIMARY KEY,"
                 + KEY_DATA + " BLOB" + ")")
-        db?.execSQL(CREATE_IMAGE_TABLE)
+        db?.execSQL(CREATE_IMAGE_TABLE)*/
     }
 
-    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        db!!.execSQL("DROP TABLE IF EXISTS " + TABLE_IMAGES)
+    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+
+        db.execSQL("drop table if exists images")
         onCreate(db)
+
+        /*db!!.execSQL("DROP TABLE IF EXISTS " + TABLE_IMAGES)
+        onCreate(db)*/
     }
 
-    fun addImages(img: DataModel): Long {
+    /*fun addImages(img: DataModel): Long {
         val db = this.writableDatabase
 
         val contentValues = ContentValues()
@@ -43,9 +51,9 @@ abstract class DatabaseHandler(context: Context) :
 
         db.close()
         return sucess
-    }
+    }*/
 
-    fun viewImages(): ArrayList<DataModel> {
+    /*fun viewImages(): ArrayList<DataModel> {
         val imgList: ArrayList<DataModel> = ArrayList<DataModel>()
 
         val selectQuery = "SELECT * FROM $TABLE_IMAGES"
@@ -72,7 +80,7 @@ abstract class DatabaseHandler(context: Context) :
             } while (cursor.moveToNext())
         }
         return imgList
-    }
+    }*/
 
 
 }

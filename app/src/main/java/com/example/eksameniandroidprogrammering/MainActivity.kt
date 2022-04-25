@@ -1,5 +1,6 @@
 package com.example.eksameniandroidprogrammering
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -7,7 +8,6 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.provider.MediaStore.Images.Media.getBitmap
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -15,26 +15,23 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContentProviderCompat.requireContext
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
-import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.androidnetworking.interfaces.StringRequestListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 //import kotlinx.coroutines.GlobalScope
 //import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.internal.Util
-import org.json.JSONObject
 import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var takePictureBtn: Button
+    private var dbHandler  = DatabaseHandler(this)
     private lateinit var imageView: ImageView
     private var selectedImage: Uri? = null
     var utils: Utils = Utils()
@@ -56,8 +53,15 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+
         GlobalScope.launch (Dispatchers.Default){
             downloadData()
+        }
+
+        val saveInAppBtn = findViewById<Button>(R.id.saved_result)
+
+        saveInAppBtn.setOnClickListener{
+            saveImage()
         }
 
         //Gjør at man kan åpne kamera i emulatoren/mobilen og ta bilde
@@ -143,7 +147,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun addRecord() {
+    /*private fun addRecord() {
         val image = iv_pick_image.toString()
         val databaseHandler: DatabaseHandler = DatabaseHandler(this)
         if (!image.isEmpty()) {
@@ -159,8 +163,32 @@ class MainActivity : AppCompatActivity() {
                 Toast.LENGTH_LONG
             ).show()
         }
+    }*/
+
+
+    fun getBitmap(context: Context, id: Int?, uri: Uri?, decoder: (Context, Int?, String?) -> Bitmap): Bitmap {
+        return decoder(context, id, uri.toString())
     }
 
+    fun UriToBitmap(context: Context, id: Int?, uri: String?): Bitmap {
+        val selectedImage: Bitmap = MediaStore.Images.Media.getBitmap(context!!.contentResolver, Uri.parse(uri))
+        return selectedImage
+    }
 
+    private fun saveImage(){
 
+        var resultUri: Uri? = null
+        var iv_pick_image: ImageView? = null
+        iv_pick_image = findViewById(R.id.iv_pick_image)
+        iv_pick_image!!.setImageURI(resultUri)
+        var imageUri = resultUri.toString()
+        println(resultUri)
+
+        val os = ByteArrayOutputStream()
+        getBitmap(applicationContext, null, resultUri, ::UriToBitmap).compress(Bitmap.CompressFormat.PNG, 100, os)
+
+        dbHandler.writableDatabase.insert("Images", null, ContentValues().apply {
+            put("image", os.toByteArray())
+        })
+    }
 }

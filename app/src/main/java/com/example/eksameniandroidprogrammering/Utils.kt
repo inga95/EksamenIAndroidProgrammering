@@ -48,6 +48,10 @@ class Utils : AppCompatActivity() {
         return file
     }
 
+    fun getBitmap(context: Context, id: Int?, uri: String?, decoder: (Context, Int?, String?) -> Bitmap): Bitmap {
+        return decoder(context, id, uri)
+    }
+
 
 }
 

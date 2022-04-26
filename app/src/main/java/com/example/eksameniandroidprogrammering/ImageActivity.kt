@@ -24,4 +24,34 @@ class ImageActivity: AppCompatActivity() {
             .load(imageLink)
             .into(ivBig)
     }
+
+    override fun onStart() {
+        super.onStart()
+        println("Activity 2 onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        println("Activity 2 onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        println("Activity 2 onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        println("Activity 2 onStop")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        println("Activity 2 onRestart")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        println("Activity 2 onDestroy")
+    }
 }

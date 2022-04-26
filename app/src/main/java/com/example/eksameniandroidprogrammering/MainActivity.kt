@@ -191,4 +191,34 @@ class MainActivity : AppCompatActivity() {
             put("image", os.toByteArray())
         })
     }
+
+    override fun onStart() {
+        super.onStart()
+        println("Activity 1 onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        println("Activity 1 onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        println("Activity 1 onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        println("Activity 1 onStop")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        println("Activity 1 onRestart")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        println("Activity 1 onDestroy")
+    }
 }

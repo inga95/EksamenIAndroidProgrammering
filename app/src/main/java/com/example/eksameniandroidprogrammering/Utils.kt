@@ -1,13 +1,10 @@
 
 package com.example.eksameniandroidprogrammering
 
-import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
-import android.provider.OpenableColumns
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import java.io.ByteArrayOutputStream
 import java.io.File

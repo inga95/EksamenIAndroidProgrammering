@@ -45,5 +45,4 @@ class Cropper : AppCompatActivity() {
             val cropError = UCrop.getError(data!!)
         }
     }
-
 }

@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.squareup.picasso.Picasso
 
@@ -30,7 +31,8 @@ class ImageActivity: AppCompatActivity() {
         val saveInAppBtn = findViewById<Button>(R.id.save_image)
 
         saveInAppBtn.setOnClickListener {
-            //saveImage(intent)
+                Toast.makeText(applicationContext, "Database is down", Toast.LENGTH_LONG).show()
+                //saveImage()
         }
     }
 
@@ -63,6 +65,7 @@ class ImageActivity: AppCompatActivity() {
         super.onDestroy()
         println("Activity 2 onDestroy")
     }
+
 
     fun saveImage(data: Intent?) {
         println("it clicks")

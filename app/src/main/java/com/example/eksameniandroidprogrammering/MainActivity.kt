@@ -24,7 +24,6 @@ import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
-    private var dbHandler  = DatabaseHandler(this)
     var utils: Utils = Utils()
     private val uploadUrl: String = "http://api-edu.gtl.ai/api/v1/imagesearch/upload"
 
@@ -36,8 +35,6 @@ class MainActivity : AppCompatActivity() {
 
         val searchBtn = findViewById<Button>(R.id.bt_search)
         val savedResultsBtn = findViewById<Button>(R.id.saved_result)
-        val checkImageView = findViewById<View>(R.id.iv_pick_image)
-
         val checkString = "https"
 
         searchBtn.setOnClickListener {
@@ -49,6 +46,10 @@ class MainActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(applicationContext, "You need to choose a picture", Toast.LENGTH_LONG).show()
             }
+        }
+
+        savedResultsBtn.setOnClickListener{
+            Toast.makeText(applicationContext, "Database is emtpy", Toast.LENGTH_LONG).show()
         }
 
         GlobalScope.launch (Dispatchers.Default){
@@ -115,13 +116,11 @@ class MainActivity : AppCompatActivity() {
                         override fun onResponse(response: String) {
                             responseContainer = response
                             println("RESPONSE: $response")
-                            println(responseContainer)
                             Toast.makeText(applicationContext, "Upload successful" ,Toast.LENGTH_SHORT).show()
                         }
 
                         override fun onError(anError: ANError) {
-                            Toast.makeText(this@MainActivity, anError.message, Toast.LENGTH_SHORT)
-                                .show()
+                            Toast.makeText(applicationContext, "There was an error, try again" ,Toast.LENGTH_SHORT).show()
                             println("ERROR: $anError.message")
                         }
                     })

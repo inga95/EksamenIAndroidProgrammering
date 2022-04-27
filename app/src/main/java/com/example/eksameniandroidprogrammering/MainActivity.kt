@@ -65,10 +65,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         //Gjør at man kan åpne kamera i emulatoren/mobilen og ta bilde
-       /*takePictureBtn.setOnClickListener{
+       /*takePictureBtn.setOnClickListener(View.OnClickListener{
+           Log.d("Camera", "Camera is called")
             var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             startActivityForResult(intent, 123)
-        }*/
+           })*/
 
         var iv_pick_image: ImageView? = null
         var mGetContent: ActivityResultLauncher<String?>? = null
@@ -98,9 +99,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
+
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode == -1 && requestCode == 101) {
+        if (resultCode == -1 && requestCode == 101 ) {
             val result = data!!.getStringExtra("RESULT")
             var resultUri: Uri? = null
             if (result != null) {

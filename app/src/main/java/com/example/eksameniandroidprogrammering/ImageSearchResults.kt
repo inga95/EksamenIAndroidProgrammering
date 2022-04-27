@@ -21,9 +21,9 @@ import kotlinx.coroutines.withContext
 class ImageSearchResults : AppCompatActivity(), OnItemCLickListener {
 
     private val dataList: MutableList<ImagesApi> = mutableListOf()
-    val bingUrl: String = "http://api-edu.gtl.ai/api/v1/imagesearch/bing"
-    val googleUrl: String = "http://api-edu.gtl.ai/api/v1/imagesearch/google"
-    val tineyeUrl: String = "http://api-edu.gtl.ai/api/v1/imagesearch/tineye"
+    private val bingUrl: String = "http://api-edu.gtl.ai/api/v1/imagesearch/bing"
+    private val googleUrl: String = "http://api-edu.gtl.ai/api/v1/imagesearch/google"
+    private val tineyeUrl: String = "http://api-edu.gtl.ai/api/v1/imagesearch/tineye"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,13 +40,17 @@ class ImageSearchResults : AppCompatActivity(), OnItemCLickListener {
     //Coroutine del
     private suspend fun getData():String? {
         var data: String? = null
+
         withContext(Dispatchers.IO){
+
+            data = googleUrl
+            data = tineyeUrl
             data = bingUrl
         }
         return data
     }
 
-   private fun getImage(){
+   private suspend fun getImage(){
         val response=intent.getStringExtra("response")
 
         println("sent response$response")
@@ -58,7 +62,7 @@ class ImageSearchResults : AppCompatActivity(), OnItemCLickListener {
 
         AndroidNetworking.initialize(this)
 
-        AndroidNetworking.get(bingUrl)
+        AndroidNetworking.get(getData())
             .addQueryParameter(
                 "url",
                 response
@@ -66,8 +70,13 @@ class ImageSearchResults : AppCompatActivity(), OnItemCLickListener {
             .build()
             .getAsObject(Liste::class.java, object : ParsedRequestListener<Liste> {
                 override fun onResponse(response: Liste) {
-                    dataList.addAll(response)
-                    adapter.notifyDataSetChanged()
+                    if (response.toString().isEmpty()) {
+                        println("No content $response")
+                        Toast.makeText(this@ImageSearchResults, "No content in body here", Toast.LENGTH_LONG).show()
+                    } else {
+                        dataList.addAll(response)
+                        adapter.notifyDataSetChanged()
+                    }
                 }
 
                 override fun onError(anError: ANError?) {

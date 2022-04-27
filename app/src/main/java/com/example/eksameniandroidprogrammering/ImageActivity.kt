@@ -12,6 +12,8 @@ import com.squareup.picasso.Picasso
 
 class ImageActivity: AppCompatActivity() {
 
+    //targeting sub-requirement #5
+
     var utils: Utils = Utils()
     private var dbHandler  = DatabaseHandler(this)
 
@@ -24,6 +26,8 @@ class ImageActivity: AppCompatActivity() {
 
         val imageLink = bundle?.getString("image_link")
 
+
+        //Using Picasso to load images
         Picasso.get()
             .load(imageLink)
             .into(ivBig)

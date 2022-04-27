@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(applicationContext, "Database is emtpy", Toast.LENGTH_LONG).show()
         }
 
+        //targeting sub-requirement #7
         GlobalScope.launch (Dispatchers.Default){
             downloadData()
         }
@@ -73,6 +74,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //targeting sub-requirement #7
     private suspend fun downloadData():String? {
         var downloadedData: String? = null
         withContext(Dispatchers.IO){

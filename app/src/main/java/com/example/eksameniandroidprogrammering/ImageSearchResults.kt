@@ -19,6 +19,8 @@ import kotlinx.coroutines.withContext
 
 class ImageSearchResults : AppCompatActivity(), OnItemCLickListener {
 
+    //targeting sub-requirement #5
+
     private val dataList: MutableList<ImagesApi> = mutableListOf()
     private val bingUrl: String = "http://api-edu.gtl.ai/api/v1/imagesearch/bing"
     private val googleUrl: String = "http://api-edu.gtl.ai/api/v1/imagesearch/google"
@@ -31,6 +33,8 @@ class ImageSearchResults : AppCompatActivity(), OnItemCLickListener {
         Toast.makeText(applicationContext, "Results loading...", Toast.LENGTH_LONG).show()
         Toast.makeText(applicationContext, "Results loading...", Toast.LENGTH_LONG).show()
 
+
+        //targeting sub-requirement #7
         GlobalScope.launch (Dispatchers.Default){
             try {
                 getData()
@@ -41,11 +45,13 @@ class ImageSearchResults : AppCompatActivity(), OnItemCLickListener {
         }
     }
 
+    //targeting sub-requirement #7
     private suspend fun getData():String? {
         var data: String? = null
 
         withContext(Dispatchers.IO){
 
+            //The googleUrl can crash the app, try to start the app again, or remove the googleUrl
             data = googleUrl
             data = tineyeUrl
             data = bingUrl

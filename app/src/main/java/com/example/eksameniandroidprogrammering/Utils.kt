@@ -12,6 +12,7 @@ import java.io.FileOutputStream
 
 class Utils : AppCompatActivity() {
 
+    //targeting sub-requirement #3
     fun UriToBitmap(context: Context, id: Int?, uri: String?): Bitmap {
         val selectedImage: Bitmap = MediaStore.Images.Media.getBitmap(context!!.contentResolver, Uri.parse(uri))
         return selectedImage
@@ -20,6 +21,7 @@ class Utils : AppCompatActivity() {
     fun bitmapToByteArray(bitmap : Bitmap) : ByteArray{
         val outputStream = ByteArrayOutputStream()
 
+        //Compress images to save memory
         bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream)
         return outputStream.toByteArray()
     }

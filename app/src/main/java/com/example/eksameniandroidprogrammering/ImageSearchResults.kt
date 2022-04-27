@@ -2,16 +2,16 @@ package com.example.eksameniandroidprogrammering
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.format.DateUtils.LENGTH_MEDIUM
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.OrientationHelper
 import com.androidnetworking.AndroidNetworking
-import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.ParsedRequestListener
-import com.androidnetworking.interfaces.StringRequestListener
+import com.example.eksameniandroidprogrammering.*
 import kotlinx.android.synthetic.main.image_search_results.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -29,11 +29,20 @@ class ImageSearchResults : AppCompatActivity(), OnItemCLickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.image_search_results)
 
+        Toast.makeText(applicationContext, "Results loading...", Toast.LENGTH_LONG).show()
+        Toast.makeText(applicationContext, "Results loading...", Toast.LENGTH_LONG).show()
+
+
 
         //Coroutine del
         GlobalScope.launch (Dispatchers.Default){
-            getData()
-            getImage()
+            try {
+                getData()
+                getImage()
+            } catch (e : Exception){
+                Toast.makeText(applicationContext, "There are no results for that picture", Toast.LENGTH_LONG).show()
+            }
+
         }
     }
 

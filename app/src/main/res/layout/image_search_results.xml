@@ -10,22 +10,39 @@
         android:id="@+id/info"
         android:layout_width="418dp"
         android:layout_height="72dp"
-        android:layout_marginTop="4dp"
-
+        android:layout_marginTop="0dp"
+        android:background="#4671C6"
         android:gravity="center"
         android:padding="5dp"
         android:text="@string/reverse_image_results"
         android:textColor="#000000"
         android:textSize="25sp"
         android:textStyle="bold"
+        app:layout_constraintHorizontal_bias="0.571"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/fullsize"
+        android:layout_width="418dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="70dp"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="@string/fullsize"
+        android:textColor="#000000"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
-        android:layout_width="255dp"
-        android:layout_height="639dp"
+        android:layout_width="256dp"
+        android:layout_height="609dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.552"

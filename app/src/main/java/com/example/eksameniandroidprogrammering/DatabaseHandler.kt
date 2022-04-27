@@ -10,26 +10,17 @@ import android.database.sqlite.SQLiteOpenHelper
 import java.sql.Blob
 
 class DatabaseHandler(context: Context) :
-    SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION){
+    SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
-        companion object {
-            private const val DATABASE_VERSION = 1
-            private const val DATABASE_NAME = "ImageDB.db"
-
-
-            /*private const val TABLE_IMAGES = "ImagesTable"
-            private const val KEY_ID = "ID"
-            private const val KEY_DATA = "Images"*/
-        }
+    companion object {
+        private const val DATABASE_VERSION = 1
+        private const val DATABASE_NAME = "ImageDB.db"
+    }
 
     override fun onCreate(db: SQLiteDatabase) {
 
-        db.execSQL("create table images (id primary key, image blob)")
+        db.execSQL("create table Images (id primary key, image blob)")
 
-        /*val CREATE_IMAGE_TABLE = ("CREATE TABLE " + TABLE_IMAGES + "("
-                + KEY_ID + " INTEGER PRIMARY KEY,"
-                + KEY_DATA + " BLOB" + ")")
-        db?.execSQL(CREATE_IMAGE_TABLE)*/
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -37,9 +28,51 @@ class DatabaseHandler(context: Context) :
         db.execSQL("drop table if exists images")
         onCreate(db)
 
-        /*db!!.execSQL("DROP TABLE IF EXISTS " + TABLE_IMAGES)
-        onCreate(db)*/
     }
+
+
+
+}
+
+
+
+
+
+/*
+
+CODE FOR WORKING DATABSE INPUT IN ONACTIVITY
+
+    fun saveImage(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == -1 && requestCode == 101) {
+            val result = data!!.getStringExtra("RESULT")
+            var resultUri: Uri? = null
+            if (result != null) {
+                resultUri = Uri.parse(result)
+            }
+            var iv_pick_image: ImageView? = null
+            iv_pick_image = findViewById(R.id.iv_pick_image)
+            iv_pick_image!!.setImageURI(resultUri)
+            println(resultUri)
+
+
+            val bitmap = utils.UriToBitmap(this, 101, resultUri.toString())
+            println(bitmap)
+            val byteArray = utils.bitmapToByteArray(bitmap)
+            println(byteArray)
+
+            println("you got further" + byteArray)
+
+
+            dbHandler.writableDatabase.insert("Images", null, ContentValues().apply {
+                put("image", byteArray)
+            })
+            println("you got to the end")
+
+
+        }
+    }*/
+
+
 
     /*fun addImages(img: DataModel): Long {
         val db = this.writableDatabase
@@ -83,4 +116,3 @@ class DatabaseHandler(context: Context) :
     }*/
 
 
-}

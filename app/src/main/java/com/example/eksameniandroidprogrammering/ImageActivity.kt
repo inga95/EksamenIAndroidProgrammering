@@ -71,6 +71,7 @@ class ImageActivity: AppCompatActivity() {
     }
 
 
+    //targeting sub-requirement #8
     fun saveImage(data: Intent?) {
         println("it clicks")
 

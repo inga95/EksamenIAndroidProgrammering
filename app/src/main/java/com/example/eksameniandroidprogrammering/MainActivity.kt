@@ -25,7 +25,6 @@ import kotlinx.coroutines.withContext
 class MainActivity : AppCompatActivity() {
 
     private var dbHandler  = DatabaseHandler(this)
-    private lateinit var imageView: ImageView
     var utils: Utils = Utils()
     private val uploadUrl: String = "http://api-edu.gtl.ai/api/v1/imagesearch/upload"
 

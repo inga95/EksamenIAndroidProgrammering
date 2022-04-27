@@ -14,8 +14,6 @@ class ImageActivity: AppCompatActivity() {
     var utils: Utils = Utils()
     private var dbHandler  = DatabaseHandler(this)
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.images_activity)
@@ -28,7 +26,6 @@ class ImageActivity: AppCompatActivity() {
         Picasso.get()
             .load(imageLink)
             .into(ivBig)
-
 
         val saveInAppBtn = findViewById<Button>(R.id.save_image)
 

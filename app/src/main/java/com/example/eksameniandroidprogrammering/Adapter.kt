@@ -10,8 +10,6 @@ import kotlinx.android.synthetic.main.item_view.view.*
 
 class Adapter(private val dataList: MutableList<ImagesApi>, private val onItemCLickListener: ImageSearchResults): RecyclerView.Adapter<ViewHolder>() {
 
-
-    private lateinit var context: Context
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val v = LayoutInflater.from(parent.context).inflate(R.layout.item_view, parent, false)

@@ -27,14 +27,12 @@ import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var takePictureBtn: Button
     private var dbHandler  = DatabaseHandler(this)
     private lateinit var imageView: ImageView
     var utils: Utils = Utils()
     private val uploadUrl: String = "http://api-edu.gtl.ai/api/v1/imagesearch/upload"
 
     var responseContainer = ""
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +43,6 @@ class MainActivity : AppCompatActivity() {
         val checkImageView = findViewById<View>(R.id.iv_pick_image)
 
         val checkString = "https"
-
 
         searchBtn.setOnClickListener {
             if (responseContainer.contains(checkString)) {
@@ -58,13 +55,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
-
         GlobalScope.launch (Dispatchers.Default){
             downloadData()
         }
-
-
 
         var iv_pick_image: ImageView? = null
         var mGetContent: ActivityResultLauncher<String?>? = null
@@ -83,8 +76,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-
     private suspend fun downloadData():String? {
         var downloadedData: String? = null
         withContext(Dispatchers.IO){
@@ -93,10 +84,7 @@ class MainActivity : AppCompatActivity() {
         return downloadedData
     }
 
-
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
 
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -142,12 +130,5 @@ class MainActivity : AppCompatActivity() {
                         }
                     })
         }
-        else if (requestCode == 123){
-            var pic = data?.getParcelableExtra<Bitmap>("data")
-            imageView.setImageBitmap(pic)
-        }
     }
-
-
-
 }

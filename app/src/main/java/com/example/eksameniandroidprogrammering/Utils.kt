@@ -15,16 +15,10 @@ import java.io.FileOutputStream
 
 class Utils : AppCompatActivity() {
 
-    private var selectedImage: Uri? = null
-    lateinit  var context: Context
-    lateinit var bitmap : Bitmap
-
-
     fun UriToBitmap(context: Context, id: Int?, uri: String?): Bitmap {
         val selectedImage: Bitmap = MediaStore.Images.Media.getBitmap(context!!.contentResolver, Uri.parse(uri))
         return selectedImage
     }
-
 
     fun bitmapToByteArray(bitmap : Bitmap) : ByteArray{
         val outputStream = ByteArrayOutputStream()
@@ -47,12 +41,6 @@ class Utils : AppCompatActivity() {
 
         return file
     }
-
-    fun getBitmap(context: Context, id: Int?, uri: String?, decoder: (Context, Int?, String?) -> Bitmap): Bitmap {
-        return decoder(context, id, uri)
-    }
-
-
 }
 
 

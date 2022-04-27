@@ -32,9 +32,6 @@ class ImageSearchResults : AppCompatActivity(), OnItemCLickListener {
         Toast.makeText(applicationContext, "Results loading...", Toast.LENGTH_LONG).show()
         Toast.makeText(applicationContext, "Results loading...", Toast.LENGTH_LONG).show()
 
-
-
-        //Coroutine del
         GlobalScope.launch (Dispatchers.Default){
             try {
                 getData()
@@ -42,11 +39,9 @@ class ImageSearchResults : AppCompatActivity(), OnItemCLickListener {
             } catch (e : Exception){
                 Toast.makeText(applicationContext, "There are no results for that picture", Toast.LENGTH_LONG).show()
             }
-
         }
     }
 
-    //Coroutine del
     private suspend fun getData():String? {
         var data: String? = null
 
@@ -99,10 +94,8 @@ class ImageSearchResults : AppCompatActivity(), OnItemCLickListener {
     }
 
     override fun onItemClicked(position: Int) {
-        //Toast.makeText(this, "You clicked on item # ${position + 1}", Toast.LENGTH_LONG).show()
         val intent = Intent(this, ImageActivity::class.java)
         intent.putExtra("image_link", dataList[position].image_link)
         startActivity(intent)
-
     }
 }

@@ -1,4 +1,4 @@
-# EksamenIAndroidProgrammering
+# Eksamen i Android Programmering
 
 Vi fikk utdelt en eksamen i emnet PGR208 Android programmering. Oppgaven var å lage en reverse image search app. 
 NB! Under hele eksamen var det noe rart med API'et (foreleseren hadde snekret sammen et API selv), så dessverre virker det som at API'et ikke fungerer lengre,
